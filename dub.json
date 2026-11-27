@@ -16,7 +16,8 @@
 	],
 	"subPackages": [
 		"./examples",
-		"./tools"
+		"./tools",
+		"./tests/abi"
 	],
 	"configurations": [
 		{
