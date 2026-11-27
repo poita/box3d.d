@@ -227,12 +227,25 @@ Box3D checkout and re-generate any changed bindings. `native/box3d_ext/` holds t
 package's additions (the snapshot wrapper); it includes Box3D's internal headers,
 so check it still builds against the new `src/`.
 
+Then run the ABI check:
+
+```sh
+dub run :abi
+```
+
+It compiles the vendored headers (and `box3d_ext/snapshot.h`) with ImportC and
+checks, at compile time, every header function, struct and enum against the D
+bindings: signatures, size, alignment, field offsets and enum values. It also
+takes the address of every `extern(C)` declaration so the link fails on a
+missing symbol. A few declarations ImportC cannot compare are listed, with
+reasons, at the top of `tests/abi/abi_check.d`. CI runs it on Linux and macOS.
+
 ## Development
 
 Format and lint with the standard D tools:
 
 ```sh
-dub run dfmt -- --inplace source/box3d/*.d examples/*.d
+dub run dfmt -- --inplace source/box3d/*.d examples/*.d tests/abi/*.d
 dub run dscanner -- --styleCheck --config dscanner.ini source/box3d/
 ```
 

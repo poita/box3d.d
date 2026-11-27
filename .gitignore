@@ -10,3 +10,5 @@ examples/box3d_hello
 tools/box3d_determinism
 *.b3rec
 hashes-*.txt
+/box3d_abi_check
+*.o

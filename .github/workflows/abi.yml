@@ -1,0 +1,33 @@
+# Compares every declaration in the vendored Box3D headers with the D bindings
+# (via ImportC) and links every extern(C) declaration. See tests/abi.
+name: abi
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  abi:
+    name: ${{ matrix.dc }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            dc: ldc-latest
+          - os: ubuntu-latest
+            dc: dmd-latest
+          # DMD has no macOS/arm64 build.
+          - os: macos-latest
+            dc: ldc-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: ${{ matrix.dc }}
+
+      - name: ABI check
+        run: dub run :abi

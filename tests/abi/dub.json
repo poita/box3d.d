@@ -1,0 +1,17 @@
+{
+	"name": "abi",
+	"description": "Checks the D bindings against the vendored Box3D headers via ImportC.",
+	"targetType": "executable",
+	"targetPath": "../../",
+	"targetName": "box3d_abi_check",
+	"sourceFiles": ["abi_check.d", "box3d_c.c"],
+	"sourcePaths": [],
+	"importPaths": ["."],
+	"dflags-ldc": ["-P-I$PACKAGE_DIR/../../native/box3d/include", "-P-I$PACKAGE_DIR/../../native/box3d_ext", "-P-DNDEBUG"],
+	"dflags-dmd": ["-P=-I$PACKAGE_DIR/../../native/box3d/include", "-P=-I$PACKAGE_DIR/../../native/box3d_ext", "-P=-DNDEBUG"],
+	"comment": "allowWarnings: ImportC also defines the header's inline helpers, so LDC warns that the extern(C) D copies share their mangled names.",
+	"buildRequirements": ["allowWarnings", "silenceDeprecations"],
+	"dependencies": {
+		"box3d": { "path": "../../" }
+	}
+}
